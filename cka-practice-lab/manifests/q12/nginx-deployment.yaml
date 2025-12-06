@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-static
+  namespace: nginx-static
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-static
+  template:
+    metadata:
+      labels:
+        app: nginx-static
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: tls-secret
+          mountPath: /etc/nginx/ssl
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: tls-secret
+        secret:
+          secretName: nginx-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-static
+  namespace: nginx-static
+spec:
+  selector:
+    app: nginx-static
+  ports:
+  - port: 443
+    targetPort: 443

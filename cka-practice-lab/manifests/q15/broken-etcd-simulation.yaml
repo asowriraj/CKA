@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: etcd-practice-note
+  namespace: kube-system
+data:
+  practice-scenario: |
+    For Question 15 practice, imagine:
+    1. etcd is running on 127.0.0.1:2379
+    2. kube-apiserver manifest has wrong etcd address
+    3. kube-scheduler has insufficient CPU requests
+    4. You need to fix both and restart services
+    
+    Actual commands to practice:
+    - sudo systemctl status etcd
+    - sudo journalctl -u kube-apiserver
+    - Edit /etc/kubernetes/manifests/kube-apiserver.yaml
+    - Edit /etc/kubernetes/manifests/kube-scheduler.yaml
+    - systemctl daemon-reload && systemctl restart kubelet
