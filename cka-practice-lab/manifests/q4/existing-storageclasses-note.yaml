@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: storageclass-note
-  namespace: kube-system
-data:
-  note: |
-    For Question 4: Create StorageClass "ran-local-path" as default
